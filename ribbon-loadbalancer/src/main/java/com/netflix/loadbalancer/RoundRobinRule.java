@@ -54,6 +54,8 @@ public class RoundRobinRule extends AbstractLoadBalancerRule {
             return null;
         }
 
+        System.out.println("Round Robin Rule");
+
         Server server = null;
         int count = 0;
         while (server == null && count++ < 10) {

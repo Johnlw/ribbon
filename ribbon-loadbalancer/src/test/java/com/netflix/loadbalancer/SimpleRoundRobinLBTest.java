@@ -40,7 +40,7 @@ public class SimpleRoundRobinLBTest {
 	@BeforeClass
 	public static void setup(){
 		LogManager.getRootLogger().setLevel((Level)Level.DEBUG);
-		isAliveMap.put("dummyservice0.netflix.com:8080", Boolean.TRUE);
+		isAliveMap.put("192:8080", Boolean.TRUE);
 		isAliveMap.put("dummyservice1.netflix.com:8080", Boolean.TRUE);
 		isAliveMap.put("dummyservice2.netflix.com:8080", Boolean.TRUE);
 		isAliveMap.put("dummyservice3.netflix.com:8080", Boolean.TRUE);
