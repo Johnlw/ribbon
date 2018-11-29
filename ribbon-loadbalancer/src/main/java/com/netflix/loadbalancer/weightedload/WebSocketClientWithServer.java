@@ -25,7 +25,7 @@ public class WebSocketClientWithServer extends WebSocketClient {
     @Override
     public void onMessage(String message) {
         //System.out.println("msg received from "+uri+" : "+message);
-        log.info("msg received from "+uri+" :  load is "+message);
+        log.debug("msg received from "+uri+" :  load is "+message);
         load = Double.parseDouble(message);
     }
 
