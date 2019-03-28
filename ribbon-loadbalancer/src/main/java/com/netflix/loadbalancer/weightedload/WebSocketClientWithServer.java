@@ -9,9 +9,9 @@ import java.net.URI;
 
 public class WebSocketClientWithServer extends WebSocketClient {
 
-    private volatile double load = 101;
+    private volatile String load = null;
     private static Logger log = LoggerFactory.getLogger(WebSocketClientWithServer.class);
-
+    private boolean connected = false;
     public WebSocketClientWithServer(URI serverUri) {
         super(serverUri);
     }
@@ -25,8 +25,11 @@ public class WebSocketClientWithServer extends WebSocketClient {
     @Override
     public void onMessage(String message) {
         //System.out.println("msg received from "+uri+" : "+message);
-        log.debug("msg received from "+uri+" :  load is "+message);
-        load = Double.parseDouble(message);
+        if(!connected){
+            log.info("msg received from "+uri+" :  load is "+message);
+            connected = true;
+        }
+        load = message;
     }
 
     @Override
@@ -41,7 +44,7 @@ public class WebSocketClientWithServer extends WebSocketClient {
         log.error("websocket connection error for "+uri);
     }
 
-    public double getLoad() {
-        return load;
+    public String getLoad() {
+       return load;
     }
 }

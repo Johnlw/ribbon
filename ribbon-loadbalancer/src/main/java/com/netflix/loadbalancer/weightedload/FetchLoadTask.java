@@ -4,32 +4,41 @@ import org.java_websocket.WebSocket;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.Collection;
+import java.util.List;
+
 public class FetchLoadTask implements Runnable {
 
-    private WebSocketClientWithServer client;
+    private Collection<WebSocketClientWithServer> clients;
     private static Logger log = LoggerFactory.getLogger(FetchLoadTask.class);
-    public FetchLoadTask(WebSocketClientWithServer client){
-        this.client = client;
+    public FetchLoadTask(Collection<WebSocketClientWithServer> clients){
+        this.clients = clients;
     }
 
     @Override
     public void run() {
-        client.connect();
-        while(!client.getReadyState().equals(WebSocket.READYSTATE.OPEN)){
-            try {
-                Thread.sleep(1000);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
+        for(WebSocketClientWithServer client:clients){
+            client.connect();
+        }
+        for(WebSocketClientWithServer client:clients){
+            while(!client.getReadyState().equals(WebSocket.READYSTATE.OPEN)){
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
             }
         }
 
         while (true){
             try {
-                Thread.sleep(1000);
+                Thread.sleep(2000);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            client.send("loadinfo");
+            for(WebSocketClientWithServer client:clients){
+                client.send("loadinfo");
+            }
         }
     }
 }
